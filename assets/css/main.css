@@ -1,0 +1,27 @@
+/* @tailwind base;
+@tailwind components;
+@tailwind utilities; */
+body{
+    background-color: theme('colors.slate.100');
+    font-family: 'Roboto', sans-serif;
+    font-size: 16px;
+    line-height: 1.5;
+    color: #333;
+    margin: 0;
+    padding: 0;
+}
+/* .container{
+    color:theme('colors.gray.800');
+    margin: 0 auto;
+    padding: 0 20px;
+}
+button[type="submit"]{
+    background-color: theme('colors.yellow.300');
+    color: #1b181f;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+} */
+
+
