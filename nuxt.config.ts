@@ -1,24 +1,44 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
-  devtools: { enabled: true },
+  // Enable devtools based on environment variable
+  devtools: { enabled: process.env.ENABLE_DEV_TOOLS === 'true' },
+  
+  // Define the path for components
   components:[
     { path: '~/components', pathPrefix:false},
   ],
-  build: {
-    transpile: [/pinia/],
-  },
-  css: [
-    '~/assets/css/main.css'
-  ],
+  
+  // Transpile specific dependencies
+  // build: {
+  //   transpile: [/pinia/],
+  // },
+  
+  // // Add global CSS
+  // css: [
+  //   '~/assets/css/main.css'
+  // ],
+  
+  // Define runtime configuration
   runtimeConfig: {
-    // Will be available on both server and client
     public:{
       baseURL: process.env.BASE_API_URL || 'http://localhost:3000',
-      // Will be only available on the server-side
       secretKey: process.env.SECRET_KEY,
     }
   },
-  ssr: false,
+  
+  // Enable server side rendering based on environment variable
+  ssr: process.env.ENABLE_SSR === 'true',
+  
+  // Define dependencies to be optimized by Vite
+  vite: {
+    optimizeDeps: {
+      include: [
+        'mermaid',
+      ]
+    }
+  },
+  
+  // Define Nitro route rules
   nitro: {
     routeRules: {
       "/": { prerender: true },
@@ -27,10 +47,7 @@ export default defineNuxtConfig({
       },
     }
   },
-  modules: [
-    "@pinia/nuxt",
-    "@vueuse/nuxt",
-    "@nuxt/ui",
-    "@element-plus/nuxt"
-  ]
+  
+  // Define Nuxt modules
+  modules: ['@element-plus/nuxt', '@nuxt/ui', '@pinia/nuxt']
 })

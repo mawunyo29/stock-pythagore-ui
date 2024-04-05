@@ -18,6 +18,7 @@ export function useFetchApi<T>( path:string , options:UseFetchOptions<T> ={}) {
     return useFetch(`/backend${path}`, {
       credentials: 'include',
       ...options,
+      $fetch: useNuxtApp().$useFetchApi,
       watch:false,
       headers: {
         'Content-Type': 'application/json',
