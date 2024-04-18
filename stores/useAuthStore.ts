@@ -18,8 +18,8 @@ export const useAuthStore = defineStore('authConnect', () => {
     })
     
     const fetchUser = async () => {
-       const {data} = await useFetchApi('/api/user')
-       user.value = data.value as User
+       const response = await useFetchApi('/api/user')
+       user.value = response as User
     }
     const authentificateHandler = async (requestData: any) => {
         const scrfToken = await useFetchApi('/sanctum/csrf-cookie')

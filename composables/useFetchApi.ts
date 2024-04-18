@@ -1,5 +1,5 @@
 import type { UseFetchOptions } from 'nuxt/app'
-export function useFetchApi<T>( path:string , options:UseFetchOptions<T> ={}) {
+export function useFetchApi<T>( path:string , options:any ={}) {
   let  headers:any = {}
  
   const token = useCookie('XSRF-TOKEN')
@@ -15,10 +15,9 @@ export function useFetchApi<T>( path:string , options:UseFetchOptions<T> ={}) {
         }
     }
     
-    return useFetch(`/backend${path}`, {
+    return $fetch(`/backend${path}`, {
       credentials: 'include',
       ...options,
-      $fetch: useNuxtApp().$useFetchApi,
       watch:false,
       headers: {
         'Content-Type': 'application/json',

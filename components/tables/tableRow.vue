@@ -31,7 +31,7 @@ const product = computed(() => {
 </script>
 
 <template>
-  <tr>
+  <tr :class="trClasses">
     <slot />
   </tr>
 </template>

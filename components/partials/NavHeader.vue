@@ -1,6 +1,6 @@
 <template>
   <nav
-    class="fixed z-50 w-full bg-[#020420]/30 border-b border-gray-200 sm:py-2 dark:bg-gray-800 dark:border-gray-700 bg-gradient-to-bl from-[#020420]/60"
+    class="fixed z-50 w-full bg-[#020420]/30 border-b border-gray-200 sm:py-3 dark:bg-gray-800 dark:border-gray-700 bg-gradient-to-bl from-[#020420]/60"
   >
     <div class="container mx-auto">
       <div class="flex items-center justify-between">
@@ -9,7 +9,8 @@
             <!-- <img src="/images/logo.svg" class="h-8 mr-3" alt="Flowbite Logo" /> -->
             <span
               class="self-center text-2xl font-semibold whitespace-nowrap text-white te"
-              >PYTHAGORE</span
+            >
+              PYTHAGORE</span
             >
           </a>
           <div class="hidden sm:flex sm:ml-6">

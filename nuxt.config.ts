@@ -49,5 +49,5 @@ export default defineNuxtConfig({
   },
   
   // Define Nuxt modules
-  modules: ['@element-plus/nuxt', '@nuxt/ui', '@pinia/nuxt']
+  modules: ['@element-plus/nuxt', '@nuxt/ui', '@pinia/nuxt', '@vueuse/nuxt','dayjs-nuxt']
 })
