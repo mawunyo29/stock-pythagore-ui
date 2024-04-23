@@ -87,7 +87,7 @@ jobs:
   deploy:
     environment:
       name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
+      url: ${{ steps.deployment.outputs }}
     env:
       APP_URL: ${{ secrets.APP_URL }}
       API_URL: ${{ secrets.API_URL }}
