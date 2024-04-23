@@ -1,5 +1,4 @@
 <script setup>
-
 definePageMeta({
   title: "Products",
   auth: true,
@@ -18,47 +17,49 @@ const productQuery = reactive({
 const { fetchProducts } = useProductStore()
 const { state } = toRefs(useProductStore())
 // Fetch products data
-const { data: allProducts, refresh, error, pending } = await useAsyncData('allProducts', async () => await fetchProducts(productQuery))
+onMounted(async () => {
+  const { data: allProducts, refresh, error, pending } = await useAsyncData('allProducts', async () => await fetchProducts(productQuery))
 
 
-// Filter data based on search value
-const filteredProducts = computed(() =>
-  allProducts.value?.data.filter((productData) =>
-    productMatchesSearch(productData, search.value)
+  // Filter data based on search value
+  const filteredProducts = computed(() =>
+    allProducts.value?.data.filter((productData) =>
+      productMatchesSearch(productData, search.value)
+    )
   )
-)
 
-// Function to check if a product matches the search query
-const productMatchesSearch = (product, query) => {
-  const { label, finition, category, qty, id, thikness } = product
-  const lowerQuery = query.toLowerCase()
+  // Function to check if a product matches the search query
+  const productMatchesSearch = (product, query) => {
+    const { label, finition, category, qty, id, thikness } = product
+    const lowerQuery = query.toLowerCase()
 
-  return (
-    !query ||
-    label.toLowerCase().includes(lowerQuery) ||
-    (finition?.label.toLowerCase().includes(lowerQuery) &&
-      category?.label.toLowerCase().includes(lowerQuery)) ||
-    qty.toString().includes(lowerQuery) ||
-    id.toString().includes(lowerQuery) ||
-    thikness?.label.toLowerCase().includes(lowerQuery)
-  )
-}
-
-// Watch for changes in search value
-const debouncedRefreshData = (fn, time, immediat) => {
-  let timeout;
-  return function () {
-    const functionCall = () => fn.apply(this, arguments)
-    clearTimeout(timeout)
-    timeout = setTimeout(functionCall, time)
+    return (
+      !query ||
+      label.toLowerCase().includes(lowerQuery) ||
+      (finition?.label.toLowerCase().includes(lowerQuery) &&
+        category?.label.toLowerCase().includes(lowerQuery)) ||
+      qty.toString().includes(lowerQuery) ||
+      id.toString().includes(lowerQuery) ||
+      thikness?.label.toLowerCase().includes(lowerQuery)
+    )
   }
-}
-// Refresh data when needed
-const refreshData = debouncedRefreshData(async () => {
-  productQuery.search = search.value
-  await refresh()
-}, 500)
 
+  // Watch for changes in search value
+  const debouncedRefreshData = (fn, time, immediat) => {
+    let timeout;
+    return function () {
+      const functionCall = () => fn.apply(this, arguments)
+      clearTimeout(timeout)
+      timeout = setTimeout(functionCall, time)
+    }
+  }
+  // Refresh data when needed
+  const refreshData = debouncedRefreshData(async () => {
+    productQuery.search = search.value
+    await refresh()
+  }, 500)
+
+})
 
 </script>
 
