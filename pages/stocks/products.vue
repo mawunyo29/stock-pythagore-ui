@@ -1,5 +1,4 @@
 <script setup>
-import { useProductStore } from '~/stores/stock/useProductStore';
 
 definePageMeta({
   title: "Products",
