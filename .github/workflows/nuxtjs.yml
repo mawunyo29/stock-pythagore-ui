@@ -65,9 +65,6 @@ jobs:
       - name: Install dependencies
         run: ${{ steps.detect-package-manager.outputs.manager }} ${{ steps.detect-package-manager.outputs.command }}
         # generate html
-      - name: Generate static site
-        run: if [ -f "nuxt.config.ts" ]; then npx nuxt generate; else npx nuxt build; fi
-
       - name: List directory
         run: ls -la
 
