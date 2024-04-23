@@ -1,4 +1,4 @@
-<script  setup>
+<script setup>
 import { reactive, ref } from "vue";
 import { routerKey } from "vue-router";
 // const { scrfToken, getScrfToken } = useScrfToken()
@@ -47,7 +47,7 @@ const rules = ref({
 });
 
 // const { authentificate, options } = useAuth()
-// const userConnet = useAuthStore();
+const { authentificateHandler } = useAuthStore();
 let formData = new FormData();
 const login = async () => {
   formData.append("email", formLogin.email.value);
@@ -62,11 +62,12 @@ const login = async () => {
   //   }
   // }
 
-  // const {data, status, pending, error, refresh}= await userConnet.authentificateHandler(formData)
+  const response = await authentificateHandler(formData)
+  console.log(response);
   // // const { data, status } = await authentificate(`/api/login`, formData)
   // console.log(data, status);
   //      const authToken  = data.value
-       
+
   //       try {
   //           if (status.value == "success" && authToken.token) {
   //               //redirect to dashboard
