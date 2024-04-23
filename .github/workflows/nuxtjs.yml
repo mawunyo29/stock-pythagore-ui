@@ -35,12 +35,12 @@ jobs:
             echo "Unable to determine package manager"
             exit 1
           fi
-          with:
+        with:
           node-version: "latest"
-          - name: Install dependencies
-            run: ${{ steps.detect-package-manager.outputs.manager }} ${{ steps.detect-package-manager.outputs.command }}
+      - name: Install dependencies
+        run: ${{ steps.detect-package-manager.outputs.manager }} ${{ steps.detect-package-manager.outputs.command }}
     #  install nuxi
-      - run: npm install nuxt
+      - run: pnpm install nuxt
       # Pick your own package manager and build script
 
         env:
