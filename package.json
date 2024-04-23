@@ -11,7 +11,6 @@
     "deploy": "push-dir --dir=dist --branch=gh-pages --cleanup"
   },
   "dependencies": {
-    "dayjs": "^1.11.10",
     "nuxt": "^3.11.2",
     "vue": "^3.4.23",
     "vue-router": "^4.3.2"
