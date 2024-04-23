@@ -38,9 +38,8 @@ jobs:
           node-version: "latest"
           cache: ${{ steps.detect-package-manager.outputs.manager }}
 
-      - name: Setup Pages
-        uses: actions/configure-pages@v5
-
+      - name: Install dependencies
+        run: npm ${{ steps.detect-package-manager.outputs.command }}
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
       - name: Restore cache
