@@ -66,8 +66,8 @@ jobs:
       - name: Install dependencies
         run: ${{ steps.detect-package-manager.outputs.manager }} ${{ steps.detect-package-manager.outputs.command }}
 
-      - name: Static HTML export with Nuxt
-        run: npx nuxi generate
+      # - name: Static HTML export with Nuxt
+      #   run: npx nuxi generate
 
       - name: List directory
         run: ls -la
