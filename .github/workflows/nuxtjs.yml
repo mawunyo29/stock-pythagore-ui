@@ -43,7 +43,7 @@ jobs:
       - run: pnpm install nuxt
       # Pick your own package manager and build script
       - name: Build
-        run: ${{ steps.detect-package-manager.outputs.manager }} run build
+        run: ${{ steps.detect-package-manager.outputs.manager }}  build
         env:
           NITRO_PRESET: github_pages
 
