@@ -23,6 +23,7 @@ export default defineNuxtConfig({
     public:{
       baseURL: process.env.BASE_API_URL || 'http://localhost:3000',
       secretKey: process.env.SECRET_KEY,
+      
     }
   },
   
@@ -37,16 +38,37 @@ export default defineNuxtConfig({
       ]
     }
   },
-  
+ 
+  app: {
+    // Define the default layout
+    
+    head: {
+     title: 'PYTHAGORE STOCK MANAGEMENT',
+      meta:[
+        {
+          charset: 'utf-8'
+        },
+        {
+          name: 'viewport',
+          content: 'width=device-width, initial-scale=1'
+        }
+      ]
+  },
+  },
+ 
   // Define Nitro route rules
-  nitro: {
+  
     routeRules: {
       "/": { prerender: true },
+      
       "/backend/**": {
-        proxy: `${process.env.BASE_API_URL}/**`
+        proxy: `${process.env.BASE_API_URL}/**`,
+       
       },
-    }
-  },
+      //redirects
+      
+    },
+  
   
   // Define Nuxt modules
   modules: ['@element-plus/nuxt', '@nuxt/ui', '@pinia/nuxt', '@vueuse/nuxt','dayjs-nuxt']

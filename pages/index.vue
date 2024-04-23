@@ -3,11 +3,12 @@ const route = useRoute()
 //set layout
 useHead({
   title: 'Home',
-  middleware: 'guest',
+
   meta: [
     {
       name: 'description',
       content: 'Home page'
+
     }
   ]
 })
@@ -15,7 +16,7 @@ useHead({
 
 <template>
   <div class="h-full">
-   <Login />
-   <h1 class="text-2xl">Home</h1>
+    <Login />
+    <h1 class="text-2xl">Home</h1>
   </div>
 </template>

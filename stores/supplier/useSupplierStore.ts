@@ -58,7 +58,7 @@ export const useSupplierStore = defineStore('supplier',() => {
 
     const fetchSupplierOrders = async(order:OrderProducts) =>{
         if(!order.id) return await Promise.resolve([])
-        const response = await useFetchApi(`/api/stock/orders/ ${order.id}/products`)
+        const response = await useFetchApi(`/api/stock/orders/${order.id}/products`)
         return response
     }
     return {

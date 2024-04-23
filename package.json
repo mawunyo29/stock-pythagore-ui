@@ -1,5 +1,5 @@
 {
-  "name": "nuxt-app",
+  "name": "pythagore",
   "private": true,
   "type": "module",
   "scripts": {
@@ -12,8 +12,8 @@
   "dependencies": {
     "dayjs": "^1.11.10",
     "nuxt": "^3.11.2",
-    "vue": "^3.4.21",
-    "vue-router": "^4.3.0"
+    "vue": "^3.4.23",
+    "vue-router": "^4.3.2"
   },
   "devDependencies": {
     "@element-plus/nuxt": "^1.0.8",
