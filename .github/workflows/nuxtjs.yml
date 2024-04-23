@@ -50,9 +50,9 @@ jobs:
       - name: Setup Pages
         uses: actions/configure-pages@v5
         with:
-          target_branch: gh-pages
-          folder: ./.output/public
-          build_script: npx nuxi generate
+          artifact_dir: ./.output/public
+          publish_dir: ./.output/public
+          cname: ${{ secrets.CNAME }}
       - name: Restore cache
         uses: actions/cache@v4
         with:
