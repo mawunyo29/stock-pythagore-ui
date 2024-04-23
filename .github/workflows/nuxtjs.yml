@@ -56,18 +56,17 @@ jobs:
         uses: actions/cache@v4
         with:
           path: |
-            dist
-            .nuxt
-            .output
-          key: ${{ runner.os }}-nuxt-build-${{ hashFiles('**/yarn.lock', '**/package-lock.json') }}
+            ./.output
+            ${{ steps.detect-package-manager.outputs.manager }}-cache
+          key: if[steps.detect-package-manager.outputs.manager == 'npm'] || if[steps.detect-package-manager.outputs.manager == 'pnpm'] || if[steps.detect-package-manager.outputs.manager == 'yarn'] || ${{ runner.os }}-nuxt-build-${{ hashFiles('**/package-lock.json') }}
           restore-keys: |
             ${{ runner.os }}-nuxt-build-
 
       - name: Install dependencies
         run: ${{ steps.detect-package-manager.outputs.manager }} ${{ steps.detect-package-manager.outputs.command }}
-
-      # - name: Static HTML export with Nuxt
-      #   run: npx nuxi generate
+        # generate html
+      - name: Generate static site
+        run: if [ -f "nuxt.config.ts" ]; then npx nuxt generate; else npx nuxt build; fi
 
       - name: List directory
         run: ls -la
