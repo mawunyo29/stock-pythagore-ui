@@ -37,7 +37,7 @@ jobs:
           if [ -f "/home/runner/work/stock-pythagore-ui/stock-pythagore-ui/yarn.lock" ]; then
             echo "manager=yarn" >> $GITHUB_OUTPUT
             echo "command=install" >> $GITHUB_OUTPUT
-          elif [ -f "/home/runner/work/stock-pythagore-ui/stock-pythagore-ui/pnpm-lock" ]; then
+          elif [ -f "/home/runner/work/stock-pythagore-ui/stock-pythagore-ui/pnpm-lock.yaml" ]; then
             echo "manager=pnpm" >> $GITHUB_OUTPUT
             echo "command=ci" >> $GITHUB_OUTPUT
           elif [ -f "/home/runner/work/stock-pythagore-ui/stock-pythagore-ui/package-lock.json" ]; then
