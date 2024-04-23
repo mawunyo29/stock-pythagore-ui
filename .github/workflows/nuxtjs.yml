@@ -1,26 +1,18 @@
-name: Deploy Nuxt site to Pages
+# https://github.com/actions/deploy-pages#usage
+name: Deploy to GitHub Pages
 
 on:
-  push:
-    branches: ["main"]
   workflow_dispatch:
-
-permissions:
-  contents: read
-  pages: write
-  id-token: write
-
-concurrency:
-  group: "pages"
-  cancel-in-progress: false
+  push:
+    branches:
+      - main
 
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-
+      - uses: actions/checkout@v4
+      - run: corepack enable
       - name: Detect package manager
         id: detect-package-manager
         run: |
@@ -40,7 +32,6 @@ jobs:
             echo "Unable to determine package manager"
             exit 1
           fi
-
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
@@ -49,38 +40,30 @@ jobs:
 
       - name: Setup Pages
         uses: actions/configure-pages@v5
-        with:
-          artifact_dir: ./.output/public
-          publish_dir: ./.output/public
-          cname: ${{ secrets.CNAME }}
-      - name: Restore cache
-        uses: actions/cache@v4
-        with:
-          path: |
-            ./.output
-            ${{ steps.detect-package-manager.outputs.manager }}-cache
-          key: if[steps.detect-package-manager.outputs.manager == 'npm'] || if[steps.detect-package-manager.outputs.manager == 'pnpm'] || if[steps.detect-package-manager.outputs.manager == 'yarn'] || ${{ runner.os }}-nuxt-build-${{ hashFiles('**/package-lock.json') }}
-          restore-keys: |
-            ${{ runner.os }}-nuxt-build-
-
-      - name: Install dependencies
-        run: ${{ steps.detect-package-manager.outputs.manager }} ${{ steps.detect-package-manager.outputs.command }}
-        # generate html
-      - name: List directory
-        run: ls -la
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
           path: ./.output/public
 
+  # Deployment job
   deploy:
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
-    runs-on: ubuntu-latest
+    # Add a dependency to the build job
     needs: build
+
+    # Grant GITHUB_TOKEN the permissions required to make a Pages deployment
+    permissions:
+      pages: write      # to deploy to Pages
+      id-token: write   # to verify the deployment originates from an appropriate source
+
+    # Deploy to the github_pages environment
+    environment:
+      name: github_pages
+      url: ${{ steps.deployment.outputs.page_url }}
+
+    # Specify runner + deployment step
+    runs-on: ubuntu-latest
     steps:
       - name: Deploy to GitHub Pages
         id: deployment
-        uses: actions/deploy-pages@v4
+        uses: actions/deploy-pages@v1
