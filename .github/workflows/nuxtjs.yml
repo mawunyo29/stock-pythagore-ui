@@ -1,18 +1,11 @@
-name: Deploy Nuxt site to Pages
+# https://github.com/actions/deploy-pages#usage
+name: Deploy to GitHub Pages
 
 on:
-  push:
-    branches: ["main"]
   workflow_dispatch:
-
-permissions:
-  contents: read
-  pages: write
-  id-token: write
-
-concurrency:
-  group: "pages"
-  cancel-in-progress: false
+  push:
+    branches:
+      - main
 
 jobs:
   build:
@@ -20,7 +13,9 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-
+      - run: corepack enable
+      - name: Setup Node
+        uses: actions/setup-node@v4
       - name: Detect package manager
         id: detect-package-manager
         run: |
@@ -40,51 +35,39 @@ jobs:
             echo "Unable to determine package manager"
             exit 1
           fi
-
-      - name: Setup Node
-        uses: actions/setup-node@v4
-        with:
+          with:
           node-version: "latest"
-          cache: ${{ steps.detect-package-manager.outputs.manager }}
+          - name: Install dependencies
+            run: ${{ steps.detect-package-manager.outputs.manager }} ${{ steps.detect-package-manager.outputs.command }}
+    #  install nuxi
+      - run: npm install nuxt
+      # Pick your own package manager and build script
 
-      - name: Setup Pages
-        uses: actions/configure-pages@v5
-        with:
-          static_site_generator: nuxt
-
-      - name: Restore cache
-        uses: actions/cache@v4
-        with:
-          path: |
-            .nuxt
-            .output
-              public
-          key: ${{ runner.os }}-nuxt-build-${{ hashFiles('**/yarn.lock', '**/package-lock.json') }}
-          restore-keys: |
-            ${{ runner.os }}-nuxt-build-
-
-      - name: Install dependencies
-        run: ${{ steps.detect-package-manager.outputs.manager }} ${{ steps.detect-package-manager.outputs.command }}
-
-      - name: Static HTML export with Nuxt
-        run: pnpm  build
         env:
           NITRO_PRESET: github_pages
-
-      - name: List directory
-        run: ls -la
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
           path: ./.output/public
 
+  # Deployment job
   deploy:
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
-    runs-on: ubuntu-latest
+    # Add a dependency to the build job
     needs: build
+
+    # Grant GITHUB_TOKEN the permissions required to make a Pages deployment
+    permissions:
+      pages: write      # to deploy to Pages
+      
+
+    # Deploy to the github_pages environment
+    environment:
+      name: github_pages
+      url: ${{ steps.deployment.outputs.page_url }}
+
+    # Specify runner + deployment step
+    runs-on: ubuntu-latest
     steps:
       - name: Deploy to GitHub Pages
         id: deployment
