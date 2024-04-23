@@ -50,8 +50,9 @@ jobs:
       - name: Setup Pages
         uses: actions/configure-pages@v5
         with:
-          static_site_generator: nuxt
-
+          target_branch: gh-pages
+          folder: ./.output/public
+          build_script: npx nuxi generate
       - name: Restore cache
         uses: actions/cache@v4
         with:
