@@ -66,9 +66,8 @@ jobs:
         uses: actions/cache@v4
         with:
           path: |
-            .output
-            ./.output/public
-          key: ${{ runner.os }}-nuxt-build-${{ hashFiles('.output') }}
+            .output/public
+          key: ${{ runner.os }}-nuxt-build-${{ hashFiles('.output/public) }}
           restore-keys: |
             ${{ runner.os }}-nuxt-build-
       - name: Install dependencies
@@ -79,7 +78,7 @@ jobs:
             ${{ steps.detect-package-manager.outputs.manager }} ${{ steps.detect-package-manager.outputs.command }}
           fi
       - name: Static HTML export with Nuxt
-        run: ${{ steps.detect-package-manager.outputs.manager }} nuxt build
+        run: ${{ steps.detect-package-manager.outputs.manager }} nuxt generate
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
