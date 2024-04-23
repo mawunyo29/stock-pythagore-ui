@@ -90,6 +90,10 @@ jobs:
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
+    env:
+      APP_URL: ${{ steps.deployment.outputs.APP_URL }}
+      API_URL: ${{ secrets.API_URL }}
+
     runs-on: ubuntu-latest
     needs: build
     steps:
