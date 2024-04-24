@@ -61,6 +61,15 @@ export const useSupplierStore = defineStore('supplier',() => {
         const response = await useFetchApi(`/api/stock/orders/${order.id}/products`)
         return response
     }
+    const storeSupplierOrder = async (order: any) => {
+        const response = await useFetchApi('/api/stock/supplier-orders', {
+            method: 'POST',
+            body: order
+        })
+        console.log(response , 'response');
+        
+        return response
+    }
     return {
         state,
         addFolder,
@@ -68,7 +77,8 @@ export const useSupplierStore = defineStore('supplier',() => {
         fetchSupplierOrderYears,
         fecthSupplierOrdersByYear,
         fetchSuppliers,
-        fetchSupplierOrders
+        fetchSupplierOrders,
+        storeSupplierOrder
     };
 }
     );

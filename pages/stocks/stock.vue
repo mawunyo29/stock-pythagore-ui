@@ -231,6 +231,20 @@ const openProductToEdit = (product, index) => {
   //open the modal
   is_upadted_product.value = true;
 };
+const updateProduct = () => {
+  const { id, qty } = productSelected.value;
+  console.log(id, qty);
+  const data = { qty };
+  const response = useFetchApi(`/api/stock/products/${id}`, {
+    method: "PUT",
+    body: data,
+    server: true,
+  });
+  if (response) {
+    console.log(response);
+
+  }
+};
 
 
 let totalStockQty = 0;
@@ -812,7 +826,7 @@ const handleClickProduct = async (start_week, currentProduct) => {
                           <div v-if="is_upadted_product && is_selected_product_id == product.id"
                             class="flex items-center justify-center max-w-xs justify-items-center">
                             <input type="text" step=".1" v-model="product.qty"
-                              class="w-20 h-5 px-1 text-black rounded-sm text-xs" />
+                              class="w-20 h-5 px-1 text-black rounded-sm text-xs" @keyup.enter="updateProduct()" />
                           </div>
                           <div v-else>
                             {{ product.qty }}

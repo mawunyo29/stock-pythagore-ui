@@ -234,8 +234,8 @@ watch(search, handleDebounce);
 
 </script>
 <template>
-    <div class="relative max-w-md mx-auto">
-        <div class="flex items-center justify-between w-full p-4">
+    <div class="relative max-w-lg mx-auto">
+        <div class="flex items-center justify-between w-full p-1">
             <div class="relative flex items-center w-full">
                 <input v-model="search" @focus="handleFocus" @blur="handleBlur" @input="handleInput"
                     @keydown="handleKeydown" :placeholder="placeholder" :disabled="isDisabled" :autofocus="autofocus"
@@ -243,7 +243,7 @@ watch(search, handleDebounce);
                     class="w-full  px-3 py-2 text-sm font-medium text-gray-800 placeholder-gray-400 bg-white border border-gray-300 rounded shadow-sm focus:outline-none focus:ring focus:ring-primary focus:border-primary focus:ring-opacity-50" />
             </div>
         </div>
-        <div v-if="isClearable" class="absolute inset-y-0 right-0 flex items-center pr-8">
+        <div v-if="isClearable" class="absolute inset-y-0 right-0 flex items-center pr-2">
             <button @click="handleClear" type="button" class="text-gray-400 hover:text-gray-500 focus:outline-none">
                 <svg v-if="isClearable" class="w-4 h-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
                     fill="none" viewBox="0 0 24 24" stroke="currentColor">

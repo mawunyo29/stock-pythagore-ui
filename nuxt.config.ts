@@ -1,7 +1,7 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
   // Enable devtools based on environment variable
-  devtools: { enabled: process.env.ENABLE_DEV_TOOLS === 'true' },
+  devtools: {enabled: true},
   
   // Define the path for components
   components:[
@@ -58,6 +58,7 @@ export default defineNuxtConfig({
  
   // Define Nitro route rules
   
+   nitro:{
     routeRules: {
       "/": { prerender: true },
       
@@ -68,8 +69,22 @@ export default defineNuxtConfig({
       //redirects
       
     },
+   },
   
   
   // Define Nuxt modules
-  modules: ['@element-plus/nuxt', '@nuxt/ui', '@pinia/nuxt', '@vueuse/nuxt','dayjs-nuxt']
+  modules: ['@element-plus/nuxt', '@nuxt/ui', '@pinia/nuxt', '@vueuse/nuxt','dayjs-nuxt'],
+  dayjs: {
+    locales: ['en', 'fr'],
+    plugins: ['relativeTime', 'utc', 'timezone' ,'weekOfYear','customParseFormat'],
+    defaultLocale: 'fr',
+    defaultTimezone: 'France/Paris',
+  },
+  ui: {
+    notifications: {
+      // Show toasts at the top right of the screen
+      position: 'top-0 bottom-auto'
+    }
+  }
+
 })

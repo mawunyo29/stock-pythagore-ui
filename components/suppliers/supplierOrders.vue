@@ -24,12 +24,13 @@ let datenow = new Date();
 let yearNow = datenow.getFullYear();
 const isCurrentDates = ref([]);
 const isCurrentDate = ref(yearNow);
-const { fetchSupplierOrderYears, fecthSupplierOrdersByYear, fetchSuppliers } =
+const { fetchSupplierOrderYears, fecthSupplierOrdersByYear, fetchSuppliers, storeSupplierOrder } =
   useSupplierStore();
 const {
   data: supplierDto,
   error: supplierOrderYearsError,
   execute,
+  refresh,
 } = await useAsyncData("supplier-orders", async () => {
   const [years, supplierOrders, suppliers] = await Promise.all([
     fetchSupplierOrderYears(),
@@ -38,9 +39,25 @@ const {
   ]);
   return { years, supplierOrders, suppliers };
 });
+const toast = useToast();
+const createOrderSupplier = async () => {
+  const res = await storeSupplierOrder(formOrder.value);
+  if (res.code === 200) {
+    actions.value.create = false;
+    toast.add({
+      detail: "La commande a été créée avec succès",
+      title: "La commande a été créée avec succès",
+    });
+    console.log("order created", res);
+  } else {
+    toast.add({
+      severity: "error",
+      position: 'top-0 bottom-auto',
+      title: "Une erreur s'est produite lors de la création de la commande",
 
-const createOrderSupplier = () => {
-  console.log("create order supplier");
+    });
+  }
+  await refresh();
 };
 const openOrderSupplier = () => {
   console.log("open order supplier");
@@ -49,7 +66,7 @@ const selectCurrentYear = async (e) => {
   yearNow = e.target.innerHTML;
   isCurrentDate.value = yearNow;
   await reload(isCurrentDate.value);
-  console.log("selectCurrentYear", isCurrentDate.value);
+
   search.value.product = "";
 };
 const orderDatas = shallowRef([]);
@@ -59,7 +76,7 @@ const suppliersdata = shallowRef([]);
 const formatDate = (date, format) => {
   const dayjs = useDayjs();
 
-  return dayjs(date, format).locale("fr").format("DD/MM/YYYY");
+  return dayjs(date, format).format("DD/MM/YYYY");
 };
 const reload = async (date) => {
   isCurrentDate.value = parseInt(date);
@@ -135,7 +152,7 @@ const is_valided = () => {
 const selectSupplier = (supplier) => {
   isSlected.value = false;
   loadData.value.suppliers = {};
-  formOrder.supplier = supplier.name;
+  formOrder.value.supplier = supplier;
   supplierSearch.value = supplier.name;
 
 };
@@ -172,7 +189,7 @@ watch(supplierSearch, (newValue, oldValue) => {
         <form class=" transition-opacity w-full bg-white p-2 rounded shadow" @submit.prevent="createOrderSupplier()"
           id="supplier_">
           <div class="block w-full gap-2 p-1">
-            <div class="flex flex-row items-center justify-between gap-4 py-3 sm:pb-4">
+            <div class="flex flex-row items-center justify-between gap-4 py-3 sm:pb-4 w-full">
               <div class="flex flex-col basis-1/2">
                 <BaseLabel for="norder_date" value="Date de livraison prévue" />
                 <input type="date" v-model="formOrder.expected_delivery_date" :class="'w-full'" id="order_date"
@@ -223,7 +240,7 @@ watch(supplierSearch, (newValue, oldValue) => {
                 Annuler
               </button>
               <button type="submit"
-                class="px-4 py-1 ml-2 text-sm font-medium text-white bg-blue-500 border border-transparent hover:bg-blue-600 focus:outline-none focus:bg-blue-600 focus:border-blue-700 btn-primary">
+                class="px-4 py-1 ml-2 text-sm font-medium rounded-md text-white bg-blue-900 border border-transparent hover:bg-blue-600 focus:outline-none focus:bg-blue-600 focus:border-blue-700 btn-primary">
                 Ajouter
               </button>
             </div>
