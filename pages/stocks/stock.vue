@@ -100,6 +100,18 @@ const { pending, data: products, refresh } = await useAsyncData('products',
   },
 
 );
+  const folders = useFolderStore();
+const isOpen = ref(false)
+const handlerOrderFolderByProduct = async (product, start_week, currentRest) => {
+  formData.rest = currentRest;
+  formData.product = product;
+  console.log(start_week);
+  formData.start_week = start_week;
+  await execute();
+  isOpen.value = true;
+
+
+};
   const { data: foldersData, execute } = await useAsyncData('folders',
   async () => {
     const [currentFolders, nextFolders] = await Promise.all([
@@ -519,18 +531,7 @@ onMounted(() => {
   calculateTotalProductStock.value
 
 });
-const folders = useFolderStore();
-const isOpen = ref(false)
-const handlerOrderFolderByProduct = async (product, start_week, currentRest) => {
-  formData.rest = currentRest;
-  formData.product = product;
-  console.log(start_week);
-  formData.start_week = start_week;
-  await execute();
-  isOpen.value = true;
 
-
-};
 
 </script>
 
