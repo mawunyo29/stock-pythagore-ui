@@ -65,7 +65,8 @@ jobs:
           path: |
             dist
             .nuxt
-          key: ${{ runner.os }}-nuxt-build-${{ hashFiles('dist') }}
+            .output
+          key: ${{ runner.os }}-nuxt-build-${{ hashFiles('.output') }}
           restore-keys: |
             ${{ runner.os }}-nuxt-build-
       - name: Install dependencies
