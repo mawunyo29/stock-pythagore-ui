@@ -28,7 +28,7 @@ export default defineNuxtConfig({
   },
   
   // Enable server side rendering based on environment variable
-  ssr: process.env.ENABLE_SSR === 'true',
+  ssr: false,
   
   // Define dependencies to be optimized by Vite
   vite: {
