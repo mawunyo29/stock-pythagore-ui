@@ -100,6 +100,23 @@ const { pending, data: products, refresh } = await useAsyncData('products',
   },
 
 );
+  const { data: foldersData, execute } = await useAsyncData('folders',
+  async () => {
+    const [currentFolders, nextFolders] = await Promise.all([
+      folders.fetchFoldersByProduct(formData.product, formData.start_week),
+      folders.fecthNextWeekFolders(formData.product, formData.start_week)
+    ]);
+    return { currentFolders, nextFolders };
+  }
+);
+
+const test = ref(null);
+useState('product', () => formData.product);
+useState('start_week', () => formData.start_week);
+
+const handleClickProduct = async (start_week, currentProduct) => {
+
+}
 // const { data: calender, refresh } = await useAsyncData('calender',
 //   async () => await useFetchApi("/api/stock/calender", {
 //     method: "GET",
@@ -514,23 +531,7 @@ const handlerOrderFolderByProduct = async (product, start_week, currentRest) => 
 
 
 };
-const { data: foldersData, execute } = await useAsyncData('folders',
-  async () => {
-    const [currentFolders, nextFolders] = await Promise.all([
-      folders.fetchFoldersByProduct(formData.product, formData.start_week),
-      folders.fecthNextWeekFolders(formData.product, formData.start_week)
-    ]);
-    return { currentFolders, nextFolders };
-  }
-);
 
-const test = ref(null);
-useState('product', () => formData.product);
-useState('start_week', () => formData.start_week);
-
-const handleClickProduct = async (start_week, currentProduct) => {
-
-}
 </script>
 
 <template>
